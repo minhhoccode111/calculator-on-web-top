@@ -1,0 +1,83 @@
+html {
+  font: normal normal normal 10px/1.5 Arial, Helvetica, sans-serif;
+}
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(128, 128, 128);
+  padding: 1rem;
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+}
+header.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+h1.hero-title {
+  text-align: center;
+  margin: 3rem auto;
+  font-size: 3rem;
+  font-weight: bolder;
+  display: block;
+}
+.calculator {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.459);
+  background-color: rgb(0, 81, 255);
+  border-radius: 2rem;
+  width: 100%;
+  max-width: 20rem;
+  height: 100%;
+  max-height: 28rem;
+}
+.screen {
+  grid-column: 1/5;
+  grid-row: 1/3;
+  background-color: rgb(0, 117, 92);
+  border: 1px solid rgba(0, 0, 0, 0.445);
+  border-radius: 1rem;
+}
+h3.sub-screen {
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+h2.result-screen {
+  font-size: 2rem;
+  font-weight: border;
+}
+.btn {
+  text-transform: uppercase;
+  background-color: rgb(255, 238, 0);
+  border: 1px solid rgba(0, 0, 0, 0.445);
+  border-radius: 0.4rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn:hover {
+  opacity: 0.8;
+  background-color: rgb(255, 0, 0);
+}
+.btn:active {
+  opacity: 0.5;
+  background-color: rgb(0, 217, 255);
+}
