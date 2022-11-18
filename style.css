@@ -3,6 +3,8 @@
 ::before {
   overflow: hidden;
   box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
 }
 html {
   font: normal normal normal 10px/1.5 Arial, Helvetica, sans-serif;
@@ -80,15 +82,22 @@ h2.result-screen {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
-  user-select: none;
-  -webkit-user-select: none;
 }
-
+.btn[data-operator] {
+  background-color: purple;
+}
+.btn[data-formatted-number] {
+  background-color: rgb(0, 255, 21);
+}
+.btn[data-delete],
+.btn[data-all-clear] {
+  background-color: rgb(0, 255, 255);
+}
 .btn:hover {
   opacity: 0.8;
   background-color: rgb(255, 0, 0);
 }
 .btn:active {
-  opacity: 0.5;
   background-color: rgb(0, 217, 255);
+  color: white;
 }
