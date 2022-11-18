@@ -8,6 +8,7 @@
 }
 html {
   font: normal normal normal 10px/1.5 Arial, Helvetica, sans-serif;
+  overflow: hidden;
 }
 .center {
   display: flex;
@@ -62,16 +63,19 @@ h1.hero-title {
   border: 1px solid rgba(0, 0, 0, 0.445);
   border-radius: 1rem;
   text-align: right;
+  display: grid;
+  grid-template: 1fr 1.5fr/1fr;
+  overflow: auto;
 }
-h3.sub-screen {
+h3.operation-screen {
   font-size: 2rem;
   font-weight: normal;
   margin: 0.4rem 0.4rem;
 }
-h2.result-screen {
+h2.number-screen {
   font-size: 3.6rem;
   font-weight: border;
-  margin: 0.4rem 0.4rem;
+  margin: 0rem 0.4rem;
 }
 .btn {
   text-transform: uppercase;
@@ -92,6 +96,16 @@ h2.result-screen {
 .btn[data-delete],
 .btn[data-all-clear] {
   background-color: rgb(0, 255, 255);
+}
+.btn[data-equals] {
+  background-color: red;
+}
+.btn[data-equals]:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+.btn[data-equals]:active {
+  background-color: rgb(89, 0, 255);
 }
 .btn:hover {
   opacity: 0.8;
