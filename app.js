@@ -6,6 +6,9 @@ const EMPTY_STR = "";
 let operator = "";
 let currentNum = "";
 let previousNum = "";
+window.addEventListener("keypress", (e) => {
+  keypressHandler(e.key);
+});
 
 const numButtons = document.querySelectorAll("[data-number]");
 numButtons.forEach((button) => {
@@ -29,14 +32,16 @@ const numDisplay = document.querySelector(".number-screen");
 numDisplay.innerText = "0";
 const dotButton = document.querySelector("#btn-dot");
 
-clearButton.onclick = () => {
+clearButton.onclick = () => clearAll();
+const clearAll = () => {
   operator = "";
   currentNum = "";
   previousNum = "";
   numDisplay.innerText = "0";
   operatorDisplay.innerText = "";
 };
-deleteButton.onclick = () => {
+deleteButton.onclick = () => clearOne();
+const clearOne = () => {
   currentNum = currentNum.toString().slice(0, -1);
   numDisplay.innerText = currentNum;
   if (currentNum === "") {
@@ -84,18 +89,19 @@ const handleOperatorClick = (op) => {
   }
 };
 const displayResult = () => {
-  if (previousNum.toString().length >= 7) {
-    numDisplay.innerText = previousNum.toString().slice(0, 6) + "...";
+  if (previousNum.toString().length >= 4) {
+    let a = previousNum.toString().slice(0, 6) + "...";
+    numDisplay.innerText = a;
     operatorDisplay.innerText = "";
     return;
-  } else if (previousNum.toString().length < 7) {
+  } else if (previousNum.toString().length < 3) {
     numDisplay.innerText = previousNum;
     operatorDisplay.innerText = "";
     return;
   }
 };
 const calculate = () => {
-  currentNum = Number(currentNum);
+  currentNum == "" ? (currentNum = 0) : (currentNum = Number(currentNum));
   previousNum = Number(previousNum);
   switch (operator) {
     case "+":
@@ -117,6 +123,7 @@ const calculate = () => {
       previousNum /= currentNum;
       currentNum = "";
       displayResult();
+      console.log(previousNum);
       break;
   }
 };
@@ -126,11 +133,40 @@ equalButton.onclick = () => {
   if (currentNum != "" && previousNum != "" && operator != "") {
     calculate();
     currentNum = previousNum;
-    numDisplay.innerText = currentNum;
+    numDisplay.innerText = currentNum.toString().slice(0, 9);
     previousNum = "";
     operator = "";
   }
   if (currentNum != "" && previousNum == "" && operator == "") {
     numDisplay.innerText = currentNum;
+  }
+};
+
+const keypressHandler = (e) => {
+  // e.preventDefault();
+  if ((e >= 0 && e <= 9) || e == ".") {
+    handleNumberClick(e);
+  }
+  if (e == "Enter" || (e == "=" && currentNum !== "" && previousNum !== "")) {
+    calculate();
+    currentNum = previousNum;
+    numDisplay.innerText = currentNum.toString().slice(0, 9);
+    previousNum = "";
+    operator = "";
+  }
+  if (e == "+" || e == "-") {
+    handleOperatorClick(e);
+  }
+  if (e == "*") {
+    handleOperatorClick("×");
+  }
+  if (e == "/") {
+    handleOperatorClick("÷");
+  }
+  if (e == "Backspace") {
+    clearOne();
+  }
+  if (e == "Escape") {
+    clearAll();
   }
 };
