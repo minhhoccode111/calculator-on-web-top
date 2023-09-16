@@ -1,85 +1,102 @@
 console.log('Hello, World!');
 
+('use strict');
+
+// used to display on two screen main and support
+class Display {
+  static support = document.getElementById('operation-screen');
+
+  static main = document.getElementById('number-screen');
+
+  static mainScreen(num) {
+    Display.main.textContent = num;
+  }
+
+  static supportScreen(num, operator) {
+    Display.support.textContent = num === 0 ? '' : num + operator;
+  }
+}
+
+// used to create calculator with all functionalities
+class Calculator {
+  constructor() {
+    this.previous = 0;
+    this.current = 0;
+    this.operator = '+';
+    this.result = 0;
+  }
+
+  update() {
+    this.previous = this.result;
+    this.current = 0;
+
+    Display.mainScreen(this.current);
+    Display.supportScreen(this.previous, this.operator);
+  }
+
+  add(num) {
+    this.current = Number(this.current + num); // add a string at the end and convert back
+    Display.mainScreen(this.current);
+  }
+
+  del() {
+    this.current = Math.floor(this.current / 10); // remove last number
+    Display.mainScreen(this.current);
+  }
+
+  operate() {
+    const currentObj = this;
+    const table = {
+      '+': currentObj.sum,
+      '-': currentObj.sub,
+      '/': currentObj.divide,
+      '*': currentObj.multiply,
+    };
+    return table[this.operator]();
+  }
+
+  sum() {
+    this.result = this.previous + this.current;
+    this.update();
+  }
+
+  sub() {
+    this.result = this.previous - this.current;
+    this.update();
+  }
+
+  divide() {
+    this.result = this.previous / this.current;
+    this.update();
+  }
+
+  multiply() {
+    this.result = this.previous * this.current;
+    this.update();
+  }
+
+  equal() {
+    this.current = this.previous;
+    this.previous = 0;
+    Display.mainScreen(this.current);
+  }
+
+  clear() {
+    this.previous = 0;
+    this.current = 0;
+    this.operator = '+';
+    Display.supportScreen('', '');
+    Display.mainScreen(this.current);
+  }
+
+  percent() {
+    this.equal();
+  }
+}
+
 window.addEventListener('DOMContentLoaded', (e) => {
-  'use strict';
-
-  const CreateNumber = () => {
-    let _value = '0';
-    const reset = () => (_value = '0');
-    // add a string number
-    const push = (v) => {
-      if (_value === '0') return (_value = v);
-      _value += v;
-    };
-
-    // remove a last string number
-    const pop = () => {
-      if (_value === '0') return;
-      if (_value.length === 1) {
-        _value = '0';
-        return;
-      }
-      _value = _value.slice(0, _value.length - 1);
-    };
-
-    const get = () => _value;
-
-    return {
-      reset,
-      push,
-      pop,
-      get,
-    };
-  };
-
-  const current = (() => {
-    const _num0 = CreateNumber();
-    const _num1 = CreateNumber();
-    let inputNum = _num0;
-    let _operator = '';
-
-    const getCurrentInputNum = () => inputNum.get();
-
-    const switchNum = () => (inputNum === _num0 ? (inputNum = _num1) : (inputNum = _num0));
-
-    const getOperator = () => _operator;
-    const setOperator = (v) => (_operator = v);
-
-    const clear = () => {
-      inputNum = _num0;
-      _num0.reset();
-      _num1.reset();
-      _operator = '';
-    };
-
-    return {
-      clear,
-      switchNum,
-      getOperator,
-      setOperator,
-    };
-  })();
-
-  const display = (() => {
-    const operationScr = document.getElementById('operation-screen');
-    const numberScr = document.getElementById('number-screen');
-
-    const clear = () => {};
-
-    return {
-      clear,
-    };
-  })();
-
-  const app = (() => {
-    const clear = () => {
-      display.clear();
-      current.clear();
-    };
-    return {
-      clear,
-    };
-  })();
+  const app = new Calculator();
+  app.clear(); // reset when start
 
   // define all buttons
   const ac = document.getElementById('btn-ac');
@@ -91,4 +108,7 @@ window.addEventListener('DOMContentLoaded', (e) => {
   const operations = document.querySelectorAll('[data-operator]');
 
   // all buttons' even listeners
+  ac.addEventListener('click', app.clear);
+
+  ce.addEventListener('click', app.del);
 });

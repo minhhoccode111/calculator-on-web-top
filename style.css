@@ -71,11 +71,13 @@ h3.operation-screen {
   font-size: 2rem;
   font-weight: normal;
   margin: 0.4rem 0.4rem;
+  overflow: auto;
 }
 h2.number-screen {
   font-size: 3.6rem;
   font-weight: border;
   margin: 0rem 0.4rem;
+  overflow: auto;
 }
 .btn {
   text-transform: uppercase;
