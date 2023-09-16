@@ -12,40 +12,7 @@ what I've learned :
 - It need more test and fix
 - and do two features 'percent' and 'minus'
 - and a lot more...
-- `add()` method are complicated with so many conditions and possibilities to check
-
-```js
-  add(numStr) {
-    if (numStr === '/' || numStr === '+' || numStr === '*') return; // ignore
-    if (numStr === '0' && this.current === '-') return; // ignore
-
-    if (numStr === '-') {
-      if (this.current === '0') this.current = '-'; // make it negative
-      if (this.current === '-') this.current = '0'; // make it positive
-      if (this.current !== '0') return; // ignore if at the middle of current
-      Display.mainScreen(this.current);
-      return;
-    }
-    if (numStr === '.') {
-      if (this.current.includes('.')) return; // ignore if more than 1 dot
-      if (this.current === '-') {
-        this.current = '-0.'; // change to this if already negative
-      } else {
-        this.current += numStr; // else just add to the end
-      }
-      Display.mainScreen(this.current);
-      return;
-    }
-    if (this.current === '0') {
-      if (numStr === '0') return; // ignore
-      this.current = numStr; // change if at the beginning
-      Display.mainScreen(this.current);
-      return;
-    }
-    this.current += numStr; // add a string at the end
-    Display.mainScreen(this.current);
-  }
-```
+- after enhanced this project with more readable code and it's will likely bug-free too
 
 [View all projects' live demos](https://minhhoccode111.github.io/all-projects-live-demos/)
 

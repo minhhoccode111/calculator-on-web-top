@@ -32,7 +32,8 @@ header.header {
   left: 0;
   right: 0;
   z-index: 100;
-
+  display: flex;
+  flex-direction: column;
   color: rgb(255, 255, 255);
 }
 h1.hero-title {
@@ -117,7 +118,14 @@ h2.number-screen {
   color: white;
 }
 #error-message {
+  position: absolute;
+  bottom: 0;
   color: red;
   font-size: 2rem;
   margin: 2rem;
+}
+
+p a {
+  margin: 1rem;
+  color: white;
 }

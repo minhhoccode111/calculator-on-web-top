@@ -14,9 +14,8 @@ class Display {
     this.main.textContent = num;
   }
 
-  static supportScreen(numStr, operator) {
-    // don't display if num===0
-    this.support.textContent = numStr + (operator || '');
+  static supportScreen(num, operator) {
+    this.support.textContent = num + (operator || '');
   }
 
   static errorMessage() {
@@ -31,9 +30,14 @@ class Display {
 // used to create calculator with all functionalities
 class Calculator {
   constructor() {
-    this.previous = '0';
-    this.current = '0';
-    this.result = '0';
+    this.previous = 0;
+    this.current = '0'; // string to add . dot
+    this.operator = '';
+  }
+
+  round() {
+    this.current = (Math.floor(+this.current * 1000) / 1000).toString();
+    this.previous = Math.floor(this.previous * 1000) / 1000;
   }
 
   add(numStr) {
@@ -70,50 +74,61 @@ class Calculator {
     Display.mainScreen(this.current);
   }
 
+  calculate() {
+    if (this.operator === '') {
+      this.previous = Number(this.current);
+    }
+    if (this.operator === '+') {
+      this.previous += Number(this.current);
+    }
+    if (this.operator === '-') {
+      this.previous -= Number(this.current);
+    }
+    if (this.operator === '/') {
+      if (+this.current === 0) return Display.errorMessage();
+      this.previous /= Number(this.current);
+    }
+    if (this.operator === '*') {
+      this.previous *= Number(this.current);
+    }
+  }
+
   operate(operator) {
-    if (operator === '+') return this.sum();
-    if (operator === '-') return this.sub();
-    if (operator === '/') return this.divide();
-    return this.multiply();
-  }
-
-  update() {}
-
-  sum() {
-    this.previous += this.current;
-    Display.supportScreen(this.previous, '+');
+    // if we click equal then calculate with previous number and previous operator
+    this.calculate();
+    // then set those again wait for new calculate
+    this.operator = operator;
     this.current = '0';
-    this.result = this.previous + this.current;
-  }
-
-  sub() {
-    this.result = this.previous - this.current;
-  }
-
-  divide() {
-    this.result = this.previous / this.current;
-  }
-
-  multiply() {
-    this.result = this.previous * this.current;
+    this.round();
+    Display.mainScreen(this.current);
+    Display.supportScreen(this.previous, operator);
   }
 
   equal() {
-    this.current = this.previous;
+    // if we click equal then calculate
+    // then set current = result
+    // then reset operator & previous
+    this.calculate();
+    this.current = this.previous.toString();
     this.previous = 0;
+    this.operator = '';
+    this.round(); // round before display
     Display.mainScreen(this.current);
+    Display.supportScreen('');
   }
 
   clear() {
-    this.previous = '0';
+    this.previous = 0;
     this.current = '0';
-    this.result = '0';
-    Display.supportScreen('', '');
+    this.operator = '';
+    Display.supportScreen('');
     Display.mainScreen(this.current);
   }
 
   percent() {
-    // this.equal();
+    this.current = (+this.current / 100).toString();
+    this.round();
+    Display.mainScreen(this.current);
   }
 
   negation() {
@@ -127,47 +142,52 @@ class Calculator {
   }
 }
 
-window.addEventListener('DOMContentLoaded', (e) => {
-  const app = new Calculator();
-  app.clear();
+const app = new Calculator();
+app.clear();
 
-  // define all buttons
-  const ac = document.getElementById('btn-ac');
-  const ce = document.getElementById('btn-ce');
-  const percent = document.getElementById('btn-percent');
-  const negation = document.getElementById('btn-negation');
-  const equal = document.getElementById('btn-equal');
-  const numbers = document.querySelectorAll('[data-number]');
-  const operations = document.querySelectorAll('[data-operator]');
+// define all buttons
+const ac = document.getElementById('btn-ac');
+const ce = document.getElementById('btn-ce');
+const percent = document.getElementById('btn-percent');
+const negation = document.getElementById('btn-negation');
+const equal = document.getElementById('btn-equal');
+const numbers = document.querySelectorAll('[data-number]');
+const operations = document.querySelectorAll('[data-operator]');
 
-  // all buttons' even listeners
-  ac.addEventListener('click', (e) => {
-    app.clear();
-  });
+// all buttons' even listeners
+ac.addEventListener('click', (e) => app.clear());
 
-  ce.addEventListener('click', (e) => {
-    app.del();
-  });
+ce.addEventListener('click', (e) => app.del());
 
-  percent.addEventListener('click', (e) => app.percent());
+percent.addEventListener('click', (e) => app.percent());
 
-  numbers.forEach((number) =>
-    number.addEventListener('click', (e) => {
-      app.add(e.target.value); // this must be string
-    })
-  );
+numbers.forEach((number) =>
+  number.addEventListener('click', (e) => {
+    app.add(e.target.value); // this must be string
+  })
+);
 
-  operations.forEach((operation) =>
-    operation.addEventListener('click', (e) => {
-      app.operate(e.target.value);
-    })
-  );
+operations.forEach((operation) =>
+  operation.addEventListener('click', (e) => {
+    app.operate(e.target.value);
+  })
+);
 
-  equal.addEventListener('click', (e) => {
-    app.equal();
-  });
+equal.addEventListener('click', (e) => app.equal());
 
-  negation.addEventListener('click', (e) => {
-    app.negation();
-  });
+negation.addEventListener('click', (e) => app.negation());
+
+// keyboard support
+window.addEventListener('keydown', (e) => {
+  e.preventDefault();
+  const key = e.key;
+  const nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+  const oper = ['+', '-', '*', '/'];
+  if (nums.indexOf(key) > -1) app.add(key);
+  if (oper.indexOf(key) > -1) app.operate(key);
+  if (key === 'Backspace') app.del();
+  if (key === '=' || key === 'Enter') app.equal();
+  if (key === 'Escape') app.clear();
+  if (key === 'ArrowUp' || key === 'ArrowDown') app.negation();
+  if (key === 'ArrowLeft') app.percent();
 });
