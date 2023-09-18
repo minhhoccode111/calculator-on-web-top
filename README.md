@@ -1,18 +1,8 @@
 # Calculator on web The Odin Project
 
-the Odin Project calculator
+Project: Calculator on Web
 
-what I've learned :
-
-- set data-attribute to element and select element by data
-- window.addEventListener('keypress', function(e) {})
-- and a lot more...
-  what I can do better:
-- when we click an operator then the keyboard just ignore '0' number (but still accept the dot '.' and others number) because I just don't want to get divide by zero or do math with zero
-- It need more test and fix
-- and do two features 'percent' and 'minus'
-- and a lot more...
-- after enhanced this project with more readable code and it's will likely bug-free too
+[Project requirements](https://www.theodinproject.com/lessons/foundations-calculator)
 
 [View all projects' live demos](https://minhhoccode111.github.io/all-projects-live-demos/)
 
