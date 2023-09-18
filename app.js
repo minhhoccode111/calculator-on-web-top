@@ -21,6 +21,7 @@ class Display {
   static errorMessage() {
     const str = `Please don't try to break my calculator :<`;
     this.error.textContent = str;
+    // clear error message after 2 seconds
     setTimeout(() => {
       this.error.textContent = '';
     }, 2000);
@@ -41,8 +42,6 @@ class Calculator {
   }
 
   add(numStr) {
-    if (numStr === '0' && this.current === '-') return Display.errorMessage(); // ignore
-
     if (numStr === '.') {
       if (this.current.includes('.')) return Display.errorMessage(); // ignore if more than 1 dot
       if (this.current === '-') {
@@ -94,9 +93,8 @@ class Calculator {
   }
 
   operate(operator) {
-    // if we click equal then calculate with previous number and previous operator
     this.calculate();
-    // then set those again wait for new calculate
+    // calculate and assign to this.previous and reset this.operator, this.current
     this.operator = operator;
     this.current = '0';
     this.round();
@@ -105,14 +103,12 @@ class Calculator {
   }
 
   equal() {
-    // if we click equal then calculate
-    // then set current = result
-    // then reset operator & previous
+    // calculate and assign to this.current and reset this.operator, this.previous
     this.calculate();
     this.current = this.previous.toString();
     this.previous = 0;
     this.operator = '';
-    this.round(); // round before display
+    this.round();
     Display.mainScreen(this.current);
     Display.supportScreen('');
   }
