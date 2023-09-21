@@ -43,6 +43,20 @@ h1.hero-title {
   font-weight: bolder;
   display: block;
 }
+h2.number-screen {
+  font-size: 1.6rem;
+  line-height: 62px;
+  font-weight: border;
+  margin: 0rem 0.4rem;
+  overflow: auto;
+}
+h3.operation-screen {
+  font-size: 1.4rem;
+  line-height: 28px;
+  font-weight: normal;
+  margin: 0.4rem 0.4rem;
+  overflow: auto;
+}
 .calculator {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -54,8 +68,7 @@ h1.hero-title {
   border-radius: 2rem;
   width: 100%;
   max-width: 20rem;
-  height: 100%;
-  max-height: 28rem;
+  height: 28rem;
 }
 .screen {
   grid-column: 1/5;
@@ -66,18 +79,6 @@ h1.hero-title {
   text-align: right;
   display: grid;
   grid-template: 1fr 1.5fr/1fr;
-  overflow: auto;
-}
-h3.operation-screen {
-  font-size: 2rem;
-  font-weight: normal;
-  margin: 0.4rem 0.4rem;
-  overflow: auto;
-}
-h2.number-screen {
-  font-size: 3.6rem;
-  font-weight: border;
-  margin: 0rem 0.4rem;
   overflow: auto;
 }
 .btn {
